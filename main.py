@@ -4,7 +4,7 @@ import random
 # constant game variables
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED =  50
+SPEED = 50
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
@@ -74,22 +74,78 @@ def next_turn(snake, food):
 
     # update new snake squares
     snake.squares.insert(0, square)
+    # coord[x coord]
+    if x == food.coordinates[0] and y == food.coordinates[1]: # this means the snake and food are overlapping
 
-    # call the next turn function again
-    window.after(SPEED, next_turn, snake, food)
+        global score
+
+        score += 1
+
+        label.config(text='score:{}'.format(score)) # add to score if snake is in contact with food
+
+        canvas.delete("food") # delete the existing food object on contact
+
+        food = Food() # create new food object after deleting old food object on contact
+    
+    else: # only delete last body part of our snake if we did not eat a food object
+
+        # before updating next turn delete last body part of the snake
+        del snake.coordinates[-1] # delete the last body part at the last index of our coordinates
+
+        # update the canvas
+        canvas.delete(snake.squares[-1]) # delete the snake from the last index for our canvas coordinates
+        del snake.squares[-1]
+
+    # generate boolean conditonal to check for collission
+    if check_collisions(snake):
+        game_over() # call game over function on wall collission
+
+    else:
+        # call the next turn function again
+        window.after(SPEED, next_turn, snake, food)
 
 # deifne a direction function
 # direction function should include a new direction parameter
 def change_direction(new_direction):
-    pass
+    
+    global direction
 
+    if new_direction == 'left':
+        if direction != 'right':
+            direction = new_direction
+    elif new_direction == 'right':
+        if direction != 'left':
+            direction = new_direction
+    elif new_direction == 'up':
+        if direction != 'down':
+            direction = new_direction
+    elif new_direction == 'down':
+        if direction != 'up':
+            direction = new_direction
+    
 # define a collision dectection funciton
-def check_collisions():
-    pass
+# collission should take in snake class as a paremeter
+def check_collisions(snake):
+    
+    # unpack head of the snake
+    x, y = snake.coordinates[0]
 
+    if x < 0 or x >= GAME_WIDTH: # conditional to check contact with left or right walls
+        return True
+    elif y < 0 or y >= GAME_HEIGHT: # conditional to check contact with top or bottom walls
+        return True
+    
+    # conditional to check of the snake comes into contact with itself
+    # we can do so by using a for lo
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]: # if the range from tail(body_part[0] and head(body_part[1]))
+            print('GAME OVER')
+            return True # return true
 # define a game_over function
 def game_over():
-    pass
+
+    canvas.delete(ALL) # remove anything within the canvas body
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('consolas', 70), text="GAME OVER", fill='red', tag='game over')
 
 # create a gui window
 window = Tk()
@@ -127,6 +183,12 @@ y = int((screen_height/2) - (window_height/2))
 
 # utilize window geometry to center window
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+# find keys to control snake
+window.bind('<KeyPress-a>', lambda event: change_direction('left'))
+window.bind('<KeyPress-d>', lambda event: change_direction('right'))
+window.bind('<KeyPress-w>', lambda event: change_direction('up'))
+window.bind('<KeyPress-s>', lambda event: change_direction('down'))
 
 # define/call our snake and food objects
 snake = Snake()
