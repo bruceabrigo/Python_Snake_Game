@@ -8,8 +8,8 @@ SPEED =  50
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
-FOOD_COLOR = "FF00FF"
-BACKGROUND_COLOR = "000000"
+FOOD_COLOR = "#FF00FF"
+BACKGROUND_COLOR = "#000000"
 
 # define a snake object
 class Snake:
@@ -48,6 +48,11 @@ direction = 'down' # game should start with snake moving down
 # define game label
 label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
 label.pack()
+
+# make a game canvas
+# game canvas should take in window, as well as our game constants for background color, game height and width.
+canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
+canvas.pack()
 
 # start the game loop
 window.mainloop()
