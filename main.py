@@ -54,5 +54,20 @@ label.pack()
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
 
+# center the window to the screen 
+window.update()
+
+# we can ensure the window is centered the the screen by taking in the screen window info 
+window_width = window.winfo_width()
+window_height = window.winfo_height()
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+
+# calculate the x axis
+x = int((screen_width/2) - (window_width/2))
+# calculate the y axis
+y = int((screen_height/2) - (window_height/2))
+
+window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 # start the game loop
 window.mainloop()
