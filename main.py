@@ -2,8 +2,8 @@ from tkinter import *
 import random
 
 # constant game variables
-GAME_WIDTH = 1200
-GAME_HEIGHT = 1200
+GAME_WIDTH = 700
+GAME_HEIGHT = 700
 SPEED =  50
 SPACE_SIZE = 50
 BODY_PARTS = 3
@@ -40,6 +40,14 @@ def game_over():
 window = Tk()
 window.title('Slinky Snek')
 window.resizable(False, False)
+
+# define non-constant game variables 
+score = 0 # start game with a score of 0
+direction = 'down' # game should start with snake moving down
+
+# define game label
+label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
+label.pack()
 
 # start the game loop
 window.mainloop()
