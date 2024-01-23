@@ -5,5 +5,6 @@
 - User can reset game if game over
 
 # Snake game snapshots
-![alt text](C:\Users\bruce\Documents\Python\Snake_Game\venv\Snapshots\Game_running.png)
-![alt text](C:\Users\bruce\Documents\Python\Snake_Game\venv\Snapshots\Game_over.png)
+![alt text](Snapshots\Game_running.png)
+![alt text](Snapshots\Game_over.png)
+
