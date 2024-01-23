@@ -6,5 +6,6 @@
 
 # Snake game snapshots
 ![Gameplay Snapshot](Snapshots/Game_running.png)
+<br>
 ![Game Over Snapshot](Snapshots/Game_over.png)
 
