@@ -5,7 +5,7 @@ import random
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
 SPEED = 50
-SPACE_SIZE = 50
+SPACE_SIZE = 30
 BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
 FOOD_COLOR = "#FF00FF"
@@ -142,10 +142,41 @@ def check_collisions(snake):
             print('GAME OVER')
             return True # return true
 # define a game_over function
-def game_over():
+# Define play_again_button as a global variable
+play_again_button = None
 
-    canvas.delete(ALL) # remove anything within the canvas body
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('consolas', 70), text="GAME OVER", fill='red', tag='game over')
+def game_over():
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('consolas', 70), text="GAME OVER", fill='red', tag='game_over')
+
+    # Create a Play Again button
+    global play_again_button
+    global game_over_message
+    play_again_button = Button(window, text="Play Again", font=('consolas', 20), command=reset_game)
+    game_over_message = canvas.create_window(canvas.winfo_width()/2, canvas.winfo_height()/2 + 100, window=play_again_button, tag='play again')
+
+# create a reset game function
+def reset_game():
+    canvas.delete('game_over') # when this function is called remove the game over text via the game_over tag
+
+    if play_again_button: # if there is a play button
+        play_again_button.destroy() # destroy the canvas for the button if the reset_game func is called
+
+    # Reset game variables
+    global score, direction
+    score = 0
+    direction = 'down'
+
+    # Update score label
+    label.config(text='Score: {}'.format(score))
+
+    # Create new snake and food objects
+    snake = Snake()
+    food = Food()
+
+    # Start the game loop again
+    next_turn(snake, food)
+
 
 # create a gui window
 window = Tk()
